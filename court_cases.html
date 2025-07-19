@@ -1,0 +1,57 @@
+<!-- court_cases.html -->{% extends "base.html" %}
+
+{% block title %}Court Cases - CRMS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-gavel"></i> Court Cases</h2>
+    <a href="{{ url_for('add_court_case') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add Court Case
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Case ID</th>
+                        <th>Crime Type</th>
+                        <th>Court Name</th>
+                        <th>Judge</th>
+                        <th>Hearing Date</th>
+                        <th>Status</th>
+                        <th>Verdict</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for case in cases %}
+                    <tr>
+                        <td>{{ case[0] }}</td>
+                        <td>{{ case[7] if case[7] else 'N/A' }}</td>
+                        <td>{{ case[2] }}</td>
+                        <td>{{ case[3] }}</td>
+                        <td>{{ case[4] }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if case[5] == 'Closed' else 'warning' if case[5] == 'Ongoing' else 'secondary' }}">
+                                {{ case[5] }}
+                            </span>
+                        </td>
+                        <td>{{ case[6] if case[6] else 'Pending' }}</td>
+                        <td>
+                            <a href="{{ url_for('delete_record', table='court_case', record_id=case[0]) }}" 
+                               class="btn btn-sm btn-outline-danger" 
+                               onclick="return confirm('Are you sure you want to delete this court case?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

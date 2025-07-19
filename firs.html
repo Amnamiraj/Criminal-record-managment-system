@@ -1,0 +1,57 @@
+<!-- firs.html -->{% extends "base.html" %}
+
+{% block title %}FIRs - CRMS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-file-alt"></i> FIR Records</h2>
+    <a href="{{ url_for('add_fir') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> File New FIR
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>FIR ID</th>
+                        <th>Complainant</th>
+                        <th>Crime Type</th>
+                        <th>Date Filed</th>
+                        <th>Filed By Officer</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fir in firs %}
+                    <tr>
+                        <td>{{ fir[0] }}</td>
+                        <td>{{ fir[1] }}</td>
+                        <td>{{ fir[7] if fir[7] else 'N/A' }}</td>
+                        <td>{{ fir[3] }}</td>
+                        <td>{{ fir[6] if fir[6] else 'Unknown' }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if fir[5] == 'Filed' else 'warning' if fir[5] == 'In Progress' else 'secondary' }}">
+                                {{ fir[5] }}
+                            </span>
+                        </td>
+                        <td>{{ fir[4][:40] }}{% if fir[4]|length > 40 %}...{% endif %}</td>
+                        <td>
+                            <a href="{{ url_for('delete_record', table='fir', record_id=fir[0]) }}" 
+                               class="btn btn-sm btn-outline-danger" 
+                               onclick="return confirm('Are you sure you want to delete this FIR?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

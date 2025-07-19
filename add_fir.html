@@ -1,0 +1,80 @@
+<!-- add_fir.html -->{% extends "base.html" %}
+
+{% block title %}File FIR - CRMS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-file-plus"></i> File New FIR</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="complaint_id" class="form-label">Complaint ID</label>
+                            <input type="number" class="form-control" id="complaint_id" name="complaint_id" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="complainant" class="form-label">Complainant Name</label>
+                            <input type="text" class="form-control" id="complainant" name="complainant" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_id" class="form-label">Related Crime</label>
+                            <select class="form-select" id="crime_id" name="crime_id" required>
+                                <option value="">Select Crime</option>
+                                {% for crime in crimes %}
+                                <option value="{{ crime[0] }}">{{ crime[1] }} - {{ crime[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="complaint_date" class="form-label">Complaint Date</label>
+                            <input type="date" class="form-control" id="complaint_date" name="complaint_date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="filed_by" class="form-label">Filed By Officer</label>
+                            <select class="form-select" id="filed_by" name="filed_by" required>
+                                <option value="">Select Officer</option>
+                                {% for officer in officers %}
+                                <option value="{{ officer[0] }}">{{ officer[1] }} ({{ officer[0] }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="">Select Status</option>
+                                <option value="Filed">Filed</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Complaint Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required placeholder="Detailed description of the complaint..."></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> File FIR
+                        </button>
+                        <a href="{{ url_for('firs') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

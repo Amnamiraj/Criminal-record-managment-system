@@ -1,0 +1,78 @@
+<!-- add_officer.html -->{% extends "base.html" %}
+
+{% block title %}Add Officer - CRMS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-user-plus"></i> Add New Police Officer</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="officer_id" class="form-label">Officer ID</label>
+                            <input type="number" class="form-control" id="officer_id" name="officer_id" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="rank" class="form-label">Rank</label>
+                            <select class="form-select" id="rank" name="rank" required>
+                                <option value="">Select Rank</option>
+                                <option value="Constable">Constable</option>
+                                <option value="Sub-Inspector">Sub-Inspector</option>
+                                <option value="Inspector">Inspector</option>
+                                <option value="DSP">DSP</option>
+                                <option value="SP">SP</option>
+                                <option value="DIG">DIG</option>
+                                <option value="IG">IG</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="badge_number" class="form-label">Badge Number</label>
+                            <input type="text" class="form-control" id="badge_number" name="badge_number" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="contact_number" class="form-label">Contact Number</label>
+                            <input type="text" class="form-control" id="contact_number" name="contact_number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="police_station" class="form-label">Police Station</label>
+                            <input type="text" class="form-control" id="police_station" name="police_station" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_id" class="form-label">Assigned Crime ID (Optional)</label>
+                            <input type="number" class="form-control" id="crime_id" name="crime_id">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="assigned_cases" class="form-label">Assigned Cases</label>
+                        <textarea class="form-control" id="assigned_cases" name="assigned_cases" rows="2" placeholder="Comma-separated case IDs"></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Add Officer
+                        </button>
+                        <a href="{{ url_for('officers') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

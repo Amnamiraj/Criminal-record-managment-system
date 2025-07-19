@@ -1,0 +1,80 @@
+<!-- add_evidence.html -->{% extends "base.html" %}
+
+{% block title %}Add Evidence - CRMS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-fingerprint"></i> Add Evidence Record</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="evidence_id" class="form-label">Evidence ID</label>
+                            <input type="number" class="form-control" id="evidence_id" name="evidence_id" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_id" class="form-label">Related Crime</label>
+                            <select class="form-select" id="crime_id" name="crime_id" required>
+                                <option value="">Select Crime</option>
+                                {% for crime in crimes %}
+                                <option value="{{ crime[0] }}">{{ crime[1] }} - ID: {{ crime[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="evidence_type" class="form-label">Evidence Type</label>
+                            <select class="form-select" id="evidence_type" name="evidence_type" required>
+                                <option value="">Select Type</option>
+                                <option value="CCTV">CCTV Footage</option>
+                                <option value="Document">Document</option>
+                                <option value="DNA Sample">DNA Sample</option>
+                                <option value="Fingerprints">Fingerprints</option>
+                                <option value="Weapon">Weapon</option>
+                                <option value="Witness Report">Witness Report</option>
+                                <option value="Digital">Digital Evidence</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="collection_date" class="form-label">Collection Date</label>
+                            <input type="date" class="form-control" id="collection_date" name="collection_date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="collected_by" class="form-label">Collected By</label>
+                            <input type="text" class="form-control" id="collected_by" name="collected_by" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="storage_location" class="form-label">Storage Location</label>
+                            <input type="text" class="form-control" id="storage_location" name="storage_location" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Evidence Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required placeholder="Detailed description of the evidence..."></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Add Evidence
+                        </button>
+                        <a href="{{ url_for('evidence') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

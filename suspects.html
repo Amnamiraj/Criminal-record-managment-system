@@ -1,0 +1,59 @@
+<!-- suspects.html -->{% extends "base.html" %}
+
+{% block title %}Suspects - CRMS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-search"></i> Suspect Records</h2>
+    <a href="{{ url_for('add_suspect') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add Suspect
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Suspect ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Contact</th>
+                        <th>Crime Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for suspect in suspects %}
+                    <tr>
+                        <td>{{ suspect[0] }}</td>
+                        <td>{{ suspect[1] }}</td>
+                        <td>{{ suspect[2] }}</td>
+                        <td>{{ suspect[3] }}</td>
+                        <td>{{ suspect[4] }}</td>
+                        <td>{{ suspect[5] }}</td>
+                        <td>{{ suspect[8] if suspect[8] else 'N/A' }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'danger' if suspect[7] == 'Arrested' else 'warning' if suspect[7] == 'Under Investigation' else 'secondary' }}">
+                                {{ suspect[7] }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('delete_record', table='suspect', record_id=suspect[0]) }}" 
+                               class="btn btn-sm btn-outline-danger" 
+                               onclick="return confirm('Are you sure you want to delete this suspect record?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Criminal - CRMS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-user-edit"></i> Edit Criminal Record</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ criminal[1] }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="age" name="age" value="{{ criminal[2] }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="Male" {{ 'selected' if criminal[3] == 'Male' else '' }}>Male</option>
+                                <option value="Female" {{ 'selected' if criminal[3] == 'Female' else '' }}>Female</option>
+                                <option value="Other" {{ 'selected' if criminal[3] == 'Other' else '' }}>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="arrest_status" class="form-label">Arrest Status</label>
+                            <select class="form-select" id="arrest_status" name="arrest_status" required>
+                                <option value="Arrested" {{ 'selected' if criminal[6] == 'Arrested' else '' }}>Arrested</option>
+                                <option value="Not Arrested" {{ 'selected' if criminal[6] == 'Not Arrested' else '' }}>Not Arrested</option>
+                                <option value="Wanted" {{ 'selected' if criminal[6] == 'Wanted' else '' }}>Wanted</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control" id="address" name="address" rows="2" required>{{ criminal[4] }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="criminal_history" class="form-label">Criminal History</label>
+                        <textarea class="form-control" id="criminal_history" name="criminal_history" rows="3">{{ criminal[5] }}</textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Criminal Record
+                        </button>
+                        <a href="{{ url_for('criminals') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

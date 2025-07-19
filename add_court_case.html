@@ -1,0 +1,76 @@
+<!-- add_court_case.html -->{% extends "base.html" %}
+
+{% block title %}Add Court Case - CRMS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-gavel"></i> Add Court Case</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="case_id" class="form-label">Case ID</label>
+                            <input type="number" class="form-control" id="case_id" name="case_id" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_id" class="form-label">Related Crime</label>
+                            <select class="form-select" id="crime_id" name="crime_id" required>
+                                <option value="">Select Crime</option>
+                                {% for crime in crimes %}
+                                <option value="{{ crime[0] }}">{{ crime[1] }} - ID: {{ crime[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="court_name" class="form-label">Court Name</label>
+                            <input type="text" class="form-control" id="court_name" name="court_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="judge_name" class="form-label">Judge Name</label>
+                            <input type="text" class="form-control" id="judge_name" name="judge_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="hearing_date" class="form-label">Hearing Date</label>
+                            <input type="date" class="form-control" id="hearing_date" name="hearing_date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="case_status" class="form-label">Case Status</label>
+                            <select class="form-select" id="case_status" name="case_status" required>
+                                <option value="">Select Status</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Closed">Closed</option>
+                                <option value="Postponed">Postponed</option>
+                                <option value="Under Review">Under Review</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="verdict" class="form-label">Verdict</label>
+                        <textarea class="form-control" id="verdict" name="verdict" rows="3" placeholder="Court verdict (if case is closed)..."></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Add Court Case
+                        </button>
+                        <a href="{{ url_for('court_cases') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

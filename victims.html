@@ -1,0 +1,57 @@
+<!-- victims.html -->{% extends "base.html" %}
+
+{% block title %}Victims - CRMS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-injured"></i> Victim Records</h2>
+    <a href="{{ url_for('add_victim') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add Victim
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Victim ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Contact</th>
+                        <th>Crime Type</th>
+                        <th>Injury Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for victim in victims %}
+                    <tr>
+                        <td>{{ victim[0] }}</td>
+                        <td>{{ victim[1] }}</td>
+                        <td>{{ victim[2] }}</td>
+                        <td>{{ victim[3] }}</td>
+                        <td>{{ victim[4] }}</td>
+                        <td>{{ victim[9] if victim[9] else 'N/A' }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'danger' if victim[6] == 'Fatal' else 'warning' if victim[6] == 'Traumatized' else 'success' if victim[6] == 'None' else 'info' }}">
+                                {{ victim[6] }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('delete_record', table='victim', record_id=victim[0]) }}" 
+                               class="btn btn-sm btn-outline-danger" 
+                               onclick="return confirm('Are you sure you want to delete this victim record?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

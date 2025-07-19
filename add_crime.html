@@ -1,0 +1,85 @@
+<!-- add_crime.html -->{% extends "base.html" %}
+
+{% block title %}Report Crime - CRMS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-exclamation-triangle"></i> Report New Crime</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_id" class="form-label">Crime ID</label>
+                            <input type="number" class="form-control" id="crime_id" name="crime_id" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_type" class="form-label">Crime Type</label>
+                            <select class="form-select" id="crime_type" name="crime_type" required>
+                                <option value="">Select Crime Type</option>
+                                <option value="Theft">Theft</option>
+                                <option value="Robbery">Robbery</option>
+                                <option value="Murder">Murder</option>
+                                <option value="Assault">Assault</option>
+                                <option value="Fraud">Fraud</option>
+                                <option value="Kidnapping">Kidnapping</option>
+                                <option value="Drug dealing">Drug dealing</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_date" class="form-label">Crime Date</label>
+                            <input type="date" class="form-control" id="crime_date" name="crime_date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="crime_location" class="form-label">Crime Location</label>
+                            <input type="text" class="form-control" id="crime_location" name="crime_location" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="crime_description" class="form-label">Crime Description</label>
+                        <textarea class="form-control" id="crime_description" name="crime_description" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="evidence_collected" class="form-label">Evidence Collected</label>
+                        <textarea class="form-control" id="evidence_collected" name="evidence_collected" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="victim_id" class="form-label">Victim ID (Optional)</label>
+                            <input type="number" class="form-control" id="victim_id" name="victim_id">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="criminal_id" class="form-label">Associated Criminal</label>
+                            <select class="form-select" id="criminal_id" name="criminal_id">
+                                <option value="">Select Criminal (if known)</option>
+                                {% for criminal in criminals %}
+                                <option value="{{ criminal[0] }}">{{ criminal[1] }} (ID: {{ criminal[0] }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Report Crime
+                        </button>
+                        <a href="{{ url_for('crimes') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

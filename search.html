@@ -1,0 +1,169 @@
+<!-- search.html -->{% extends "base.html" %}
+
+{% block title %}Search Results - CRMS{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2><i class="fas fa-search"></i> Search Results</h2>
+    {% if query %}
+        <p class="text-muted">Results for "{{ query }}" in {{ search_type }} records</p>
+    {% endif %}
+</div>
+
+<!-- Search Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Search records..." required>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="type">
+                    <option value="criminal" {{ 'selected' if search_type == 'criminal' else '' }}>Criminal</option>
+                    <option value="crime" {{ 'selected' if search_type == 'crime' else '' }}>Crime</option>
+                    <option value="fir" {{ 'selected' if search_type == 'fir' else '' }}>FIR</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            <div class="col-md-3">
+                <a href="{{ url_for('search') }}" class="btn btn-secondary w-100">
+                    <i class="fas fa-refresh"></i> Clear
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Results -->
+{% if query %}
+    {% if results %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Found {{ results|length }} result(s)</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            {% if search_type == 'criminal' %}
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Address</th>
+                                <th>Criminal History</th>
+                                <th>Status</th>
+                            {% elif search_type == 'crime' %}
+                                <th>Crime ID</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th>Description</th>
+                                <th>Evidence</th>
+                            {% elif search_type == 'fir' %}
+                                <th>FIR ID</th>
+                                <th>Complainant</th>
+                                <th>Crime ID</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                        <tr>
+                            {% if search_type == 'criminal' %}
+                                <td>{{ result[0] }}</td>
+                                <td><strong>{{ result[1] }}</strong></td>
+                                <td>{{ result[2] }}</td>
+                                <td>{{ result[3] }}</td>
+                                <td>{{ result[4][:30] }}{% if result[4]|length > 30 %}...{% endif %}</td>
+                                <td>{{ result[5][:30] if result[5] else 'N/A' }}{% if result[5] and result[5]|length > 30 %}...{% endif %}</td>
+                                <td>
+                                    <span class="badge bg-{{ 'danger' if result[6] == 'Arrested' else 'warning' if result[6] == 'Wanted' else 'secondary' }}">
+                                        {{ result[6] }}
+                                    </span>
+                                </td>
+                            {% elif search_type == 'crime' %}
+                                <td>{{ result[0] }}</td>
+                                <td><span class="badge bg-info">{{ result[1] }}</span></td>
+                                <td>{{ result[2] }}</td>
+                                <td>{{ result[3] }}</td>
+                                <td>{{ result[4][:40] }}{% if result[4]|length > 40 %}...{% endif %}</td>
+                                <td>{{ result[5][:30] if result[5] else 'N/A' }}{% if result[5] and result[5]|length > 30 %}...{% endif %}</td>
+                            {% elif search_type == 'fir' %}
+                                <td>{{ result[0] }}</td>
+                                <td><strong>{{ result[1] }}</strong></td>
+                                <td>{{ result[2] if result[2] else 'N/A' }}</td>
+                                <td>{{ result[3] }}</td>
+                                <td>{{ result[4][:40] }}{% if result[4]|length > 40 %}...{% endif %}</td>
+                                <td>
+                                    <span class="badge bg-{{ 'success' if result[5] == 'Filed' else 'warning' if result[5] == 'In Progress' else 'secondary' }}">
+                                        {{ result[5] }}
+                                    </span>
+                                </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="card">
+        <div class="card-body text-center">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5>No results found</h5>
+            <p class="text-muted">No {{ search_type }} records found for "{{ query }}". Try:</p>
+            <ul class="list-unstyled text-muted">
+                <li>• Check spelling</li>
+                <li>• Use different keywords</li>
+                <li>• Try a different record type</li>
+                <li>• Use partial names or words</li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+{% else %}
+    <div class="card">
+        <div class="card-body text-center">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5>Search CRMS Records</h5>
+            <p class="text-muted">Enter a search term above to find records in the database.</p>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6><i class="fas fa-user-secret"></i> Criminal Search</h6>
+                            <small class="text-muted">Search by criminal name</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6><i class="fas fa-exclamation-triangle"></i> Crime Search</h6>
+                            <small class="text-muted">Search by crime type or location</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6><i class="fas fa-file-alt"></i> FIR Search</h6>
+                            <small class="text-muted">Search by complainant or description</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
